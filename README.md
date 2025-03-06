@@ -1,14 +1,10 @@
-
 <h1>FocusNet</h1>
 
 <h2>Description</h2>
 
+This repository outlines the implementation of FocusNet by [Zhang et al.](https://arxiv.org/abs/2110.07307) [1]. FocusNet seeks to improve a deep learning teacher model in the knowledge distillation framework by focussing the model's attention on classes with high confusion.
 
-This project consists of a simple approach to incorporating external datasets into pre-trained models. The approach was adapted from the continual learning approach by [Zhang et al.](https://arxiv.org/abs/2303.05118) [1]. In this adaptation, the use of transfer learning bypasses the need for classifier alignment due to the re-initialization of the classification head. The model backbone uses the Patchout faSt Spectrogram Transformer ([PaSST](https://arxiv.org/abs/2110.05069)) [2] model pre-trained with AudioSet [3].
-<br/>
-
-The external dataset used is the [CochlScene](https://arxiv.org/abs/2211.02289) [4] dataset, an acoustic scene classification dataset obtained via crowdsourcing in South Korea. The final task dataset is the TAU 2022 urban acoustic scenes mobile development dataset, which has been a mainstay in the DCASE Task 1 challenges since 2022.
-
+The model backbone uses the Patchout faSt Spectrogram Transformer ([PaSST](https://arxiv.org/abs/2110.05069)) [2] model pre-trained with AudioSet [3].
 
 <br />
 
@@ -28,8 +24,7 @@ For exact requirements, see [here](https://github.com/fschmid56/cpjku_dcase23).
 
 <h2>Datasets Used</h2>
 
-- <b>TAU 2022 Urban Acoustic Scenes Mobile Development [5] </b> 
-- <b>CochlScene</b>
+- <b>TAU 2022 Urban Acoustic Scenes Mobile Development [4] </b> 
 - <b>AudioSet</b>
 
 <h2>Getting Started:</h2>
@@ -37,54 +32,7 @@ For exact requirements, see [here](https://github.com/fschmid56/cpjku_dcase23).
 
 Follow the setup instructions for the PaSST models found [here](https://github.com/fschmid56/cpjku_dcase23).
 
-Prepare the Datasets: <br/>
-
-1. Download the CochlScene dataset [here](https://github.com/cochlearai/cochlscene).
-2. Extract the files to your dataset path.
-3. Run [rename_csfiles.py](utils/rename_csfiles.py) to generate the meta and training split csv for the CS dataset.
-
-Prepare the resource and metadata files: <br/>
-
-1. Create a separate instance of [dcase23.py](https://github.com/fschmid56/cpjku_dcase23/blob/main/datasets/dcase23.py) for use on the CS dataset.
-2. Adjust the paths for the TAU and CS meta files accordingly.
-3. Configure the get_training_set function show below to take the CS training split.
-
-![Adjust training set retrieval function in run_passt_training.py.](https://github.com/seanyeo300/Slow-Learner-with-Incremental-Transfer-Learning/blob/main/images/configure_training_set.png)
-
-Implememting SIT: <br/>
-Adjust optimizer function in run_passt_training.py.<br />
-
-![Adjust optimizer function in run_passt_training.py.](https://github.com/seanyeo300/Slow-Learner-with-Incremental-Transfer-Learning/blob/main/images/configure_optimizer.png)
-
-<br />
-<br />
-
-Adjust the representation layer Learning Rate:  <br/>
-
-For use with the CS dataset, setting 1e-4 for the representation layer yielded the best performance for our system configuration.
-
-![Adjust learning rate arguments in run_passt_training.py.](https://github.com/seanyeo300/Slow-Learner-with-Incremental-Transfer-Learning/blob/main/images/configure_learning_rate.png)
-
-<br />
-
-Perform SIT training for CochlScene:  <br/>
-
-- Set the default value of --subset to cochl
-- Set the default value of --n_classes to 13
-- Set the default value of --resample_rate to 44100
-- Reduce batch size until the samples fit into GPU memory
-- For windows users, set the default value of num_workers to 0
-
-Peform SIT training for TAU:  <br/>
-
-- Set the default value of --ckpt_id to the model trained with the CS dataset
-- Set the default value of --subset between 5 to 100
-- Set the default value of --n_classes to 10
-- Set the default value of --resample_rate to 44100
-- Set the default value of --batch_size to 256 or 128, depending on size of GPU memory
-- For windows users, set the default value of num_workers to 0
-
-Train a PaSST model with TAU only:  <br/>
+Train a PaSST model to act as the template model:  <br/>
 
 - Set the default value of --ckpt_id to None
 - Set the default value of --subset between 5 to 100
@@ -92,6 +40,13 @@ Train a PaSST model with TAU only:  <br/>
 - Set the default value of --resample_rate to 44100
 - Set the default value of --batch_size to 256 or 128, depending on size of GPU memory
 - For windows users, set the default value of num_workers to 0
+
+ Evaluate the model using the training dataset to obtain logits
+ 
+ - Create a separate instance of [dcase23.py](https://github.com/fschmid56/cpjku_dcase23/blob/main/datasets/dcase23.py) for use on FocusNet.
+ - Edit the new dcase23.py file to take evaluation files from the training files
+ - use the --evaluate flag when running the run_passt_training.py script from the terminal to obtain logits when inferring on training data
+ - 
 
 <h2>Comparing your results:</h2>
 
