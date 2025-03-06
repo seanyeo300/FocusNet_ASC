@@ -51,25 +51,15 @@ Train a PaSST model to act as the template model:  <br/>
  - use the --evaluate flag when running the run_passt_training.py script from the terminal to obtain logits when inferring on training data
 
 
-<h2>Comparing your results:</h2>
-
-Compare the results of the SIT trained model and the one trained with standard fine-tuning. Seq-FT refers to a model trained using standard fine-tuning for the CS and TAU dataset. i.e. No SIT training.
-
-<p align="center">
- <img src="https://github.com/seanyeo300/Slow-Learner-with-Incremental-Transfer-Learning/blob/main/images/result_comparison.png" height="50%" width="50%" alt="Table of Results"/>
-
-
 <h2>References:</h2>
 
-[1] Zhang, G., Wang, L., Kang, G., Chen, L., & Wei, Y. (2023). Slca: Slow learner with classifier alignment for continual learning on a pre-trained model. In Proceedings of the IEEE/CVF International Conference on Computer Vision (pp. 19148-19158).
+[1] Zhang, X., Sheng, Z., & Shen, H. L. (2022). FocusNet: Classifying better by focusing on confusing classes. Pattern Recognition, 129, 108709.
 
 [2] Koutini, K., Schlüter, J., Eghbal-Zadeh, H., & Widmer, G. (2021). Efficient training of audio transformers with patchout. arXiv preprint arXiv:2110.05069.
 
 [3] Gemmeke, J. F., Ellis, D. P., Freedman, D., Jansen, A., Lawrence, W., Moore, R. C., ... & Ritter, M. (2017, March). Audio set: An ontology and human-labeled dataset for audio events. In 2017 IEEE international conference on acoustics, speech and signal processing (ICASSP) (pp. 776-780). IEEE.
 
-[4] Jeong, I. Y., & Park, J. (2022, November). Cochlscene: Acquisition of acoustic scene data using crowdsourcing. In 2022 Asia-Pacific Signal and Information Processing Association Annual Summit and Conference (APSIPA ASC) (pp. 17-21). IEEE.
-
-[5] T. Heittola, A. Mesarosand T. Virtanen, “TAU Urban Acoustic Scenes 2022 Mobile, Development dataset”. Zenodo, Mar. 08, 2022. doi: 10.5281/zenodo.6337421.
+[4] T. Heittola, A. Mesarosand T. Virtanen, “TAU Urban Acoustic Scenes 2022 Mobile, Development dataset”. Zenodo, Mar. 08, 2022. doi: 10.5281/zenodo.6337421.
 
 
 
