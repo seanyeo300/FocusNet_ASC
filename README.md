@@ -44,9 +44,12 @@ Train a PaSST model to act as the template model:  <br/>
  Evaluate the model using the training dataset to obtain logits
  
  - Create a separate instance of [dcase23.py](https://github.com/fschmid56/cpjku_dcase23/blob/main/datasets/dcase23.py) for use on FocusNet.
- - Edit the new dcase23.py file to take evaluation files from the training files
+ - Edit the new dcase23.py file to take evaluation files from the training files csv
+
+![Add FocusNet loss computation](https://github.com/seanyeo300/FocusNet_ASC/blob/main/images/FocusNet_loss.png)
+  
  - use the --evaluate flag when running the run_passt_training.py script from the terminal to obtain logits when inferring on training data
- - 
+
 
 <h2>Comparing your results:</h2>
 
