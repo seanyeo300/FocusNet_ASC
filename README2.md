@@ -6,7 +6,9 @@
 This repository consists of a simple approach to train a low-complexity ASC model using Knowledge Distillation. The teacher model uses the Patchout faSt Spectrogram Transformer ([PaSST](https://arxiv.org/abs/2110.05069)) [1] model pre-trained with AudioSet [2]. The student model uses the DCASE2024 Baseline model.
 <br/>
 
-The training dataset is the TAU 2022 urban acoustic scenes mobile development dataset.
+The training dataset is the TAU 2022 urban acoustic scenes mobile development dataset. The h5 files for the training dataset and dir augmentations are provided. 
+
+**For the DCASE challenge, you will need to adjust the eval_dl dataloader and dataset functions to load the evaluation data from wav files.**
 
 
 <br />
@@ -27,7 +29,7 @@ For exact requirements, see [here](https://github.com/fschmid56/cpjku_dcase23).
 
 <h2>Datasets downloaded</h2>
 
-- <b>TAU 2022 Urban Acoustic Scenes Mobile Development [3] </b> 
+- <b>TAU 2022 Urban Acoustic Scenes Mobile Development dataset [3] </b> 
 
 <h2>Getting Started:</h2>
 
@@ -37,7 +39,7 @@ Install any additional missing requirements, you may check [here](https://github
 Prepare the Datasets: <br/>
 
 1. Download the TAU urban acoustic scenes mobile development dataset [here](https://zenodo.org/records/6337421).
-2. Extract the files to your dataset path.
+2. Extract the files to your dataset path
 
 Prepare the resource and metadata files: <br/>
 
@@ -47,16 +49,18 @@ Prepare the resource and metadata files: <br/>
 <br />
 <br />
 
-Peform SIT training for TAU:  <br/>
+Perform Knowledge Distillation:  <br/>
 
-- Set the default value of --ckpt_id to the model trained with the CS dataset
-- Set the default value of --subset between 5 to 100
-- Set the default value of --n_classes to 10
-- Set the default value of --resample_rate to 44100
+Adjust the parameters of the baseline mode. For this demo with the 5% split:
+
+- Set the default value of --subset to 5
+- Set the default value of --resample_rate to 32000
 - Set the default value of --batch_size to 256 or 128, depending on size of GPU memory
 - For windows users, set the default value of num_workers to 0
 
-Train a PaSST model with TAU only:  <br/>
+run the script using command line: python run_training_KD_h5.py
+
+Optionally, fine-tune your own PaSST model with TAU:  <br/>
 
 - Set the default value of --ckpt_id to None
 - Set the default value of --subset between 5 to 100
@@ -64,6 +68,16 @@ Train a PaSST model with TAU only:  <br/>
 - Set the default value of --resample_rate to 44100
 - Set the default value of --batch_size to 256 or 128, depending on size of GPU memory
 - For windows users, set the default value of num_workers to 0
+
+run the script using command line: python run_passt_training_h5.py
+
+<h2>Obtaining Teacher Logits:</h2>
+
+Reuse the same parameters you used for your teacher model and make the following changes:
+
+- Set the default value of --ckpt_id to your model's id
+- Adjust the eval_dl depending on 
+run the script using command line: python run_training_KD_h5.py --evaluate
 
 <h2>Comparing your results:</h2>
 
