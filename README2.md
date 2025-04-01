@@ -58,7 +58,10 @@ Adjust the parameters of the baseline mode. For this demo with the 5% split:
 - Set the default value of --batch_size to 256 or 128, depending on size of GPU memory
 - For windows users, set the default value of num_workers to 0
 
-run the script using command line: python run_training_KD_h5.py
+```
+run the script using command line:
+python run_training_KD_h5.py
+```
 
 Optionally, fine-tune your own PaSST model with TAU:  <br/>
 
