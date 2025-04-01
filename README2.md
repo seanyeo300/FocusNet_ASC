@@ -1,12 +1,12 @@
-<h1>Slow Learner with Incremental Transfer Learning</h1>
+<h1>Knowledge Distillation with PaSST to BCBL</h1>
 
 <h2>Description</h2>
 
 
-This repository consists of a simple approach to incorporating external datasets into pre-trained models. The approach was adapted from the continual learning approach by [Zhang et al.](https://arxiv.org/abs/2303.05118) [1]. In this adaptation, the use of transfer learning bypasses the need for classifier alignment due to the re-initialization of the classification head. The model backbone uses the Patchout faSt Spectrogram Transformer ([PaSST](https://arxiv.org/abs/2110.05069)) [2] model pre-trained with AudioSet [3].
+This repository consists of a simple approach to train a low-complexity ASC model using Knowledge Distillation. The teacher model uses the Patchout faSt Spectrogram Transformer ([PaSST](https://arxiv.org/abs/2110.05069)) [1] model pre-trained with AudioSet [2]. The student model uses the DCASE2024 Baseline model.
 <br/>
 
-The external dataset used is the [CochlScene](https://arxiv.org/abs/2211.02289) [4] dataset, an acoustic scene classification dataset obtained via crowdsourcing in South Korea. The final task dataset is the TAU 2022 urban acoustic scenes mobile development dataset, which has been a mainstay in the DCASE Task 1 challenges since 2022.
+The training dataset is the TAU 2022 urban acoustic scenes mobile development dataset.
 
 
 <br />
@@ -25,54 +25,27 @@ For exact requirements, see [here](https://github.com/fschmid56/cpjku_dcase23).
 
 - <b>Windows 10</b>
 
-<h2>Datasets Used</h2>
+<h2>Datasets downloaded</h2>
 
-- <b>TAU 2022 Urban Acoustic Scenes Mobile Development [5] </b> 
-- <b>CochlScene</b>
-- <b>AudioSet</b>
+- <b>TAU 2022 Urban Acoustic Scenes Mobile Development [3] </b> 
 
 <h2>Getting Started:</h2>
 
 
-Follow the setup instructions for the PaSST models found [here](https://github.com/fschmid56/cpjku_dcase23).
+Install any additional missing requirements, you may check [here](https://github.com/fschmid56/cpjku_dcase23).
 
 Prepare the Datasets: <br/>
 
-1. Download the CochlScene dataset [here](https://github.com/cochlearai/cochlscene).
+1. Download the TAU urban acoustic scenes mobile development dataset [here](https://zenodo.org/records/6337421).
 2. Extract the files to your dataset path.
-3. Run [rename_csfiles.py](utils/rename_csfiles.py) to generate the meta and training split csv for the CS dataset.
 
 Prepare the resource and metadata files: <br/>
 
-1. Create a separate instance of [dcase23.py](https://github.com/fschmid56/cpjku_dcase23/blob/main/datasets/dcase23.py) for use on the CS dataset.
-2. Adjust the paths for the TAU and CS meta files accordingly.
-3. Configure the get_training_set function show below to take the CS training split.
-
-![Adjust training set retrieval function in run_passt_training.py.](https://github.com/seanyeo300/Slow-Learner-with-Incremental-Transfer-Learning/blob/main/images/configure_training_set.png)
-
-Implememting SIT: <br/>
-Adjust optimizer function in run_passt_training.py.<br />
-
-![Adjust optimizer function in run_passt_training.py.](https://github.com/seanyeo300/Slow-Learner-with-Incremental-Transfer-Learning/blob/main/images/configure_optimizer.png)
+1. Adjust the paths in datasets/dcase24_ntu_teacher.py and dcase24_student.py to point at .../TAU-urban-acoustic-scenes-2022-mobile-development (do not point at TAU-urban-acoustic-scenes-2022-mobile-development/audio)
+2. Adjust logit file paths to point at .../predictions/ensemble/yourlogit.pt
 
 <br />
 <br />
-
-Adjust the representation layer Learning Rate:  <br/>
-
-For use with the CS dataset, setting 1e-4 for the representation layer yielded the best performance for our system configuration.
-
-![Adjust learning rate arguments in run_passt_training.py.](https://github.com/seanyeo300/Slow-Learner-with-Incremental-Transfer-Learning/blob/main/images/configure_learning_rate.png)
-
-<br />
-
-Perform SIT training for CochlScene:  <br/>
-
-- Set the default value of --subset to cochl
-- Set the default value of --n_classes to 13
-- Set the default value of --resample_rate to 44100
-- Reduce batch size until the samples fit into GPU memory
-- For windows users, set the default value of num_workers to 0
 
 Peform SIT training for TAU:  <br/>
 
