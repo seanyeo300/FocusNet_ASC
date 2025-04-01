@@ -19,7 +19,7 @@ The training dataset is the TAU 2022 urban acoustic scenes mobile development da
 The important packages and libraries required for reproducing this experiment are:
 
 - <b>Python = 3.7.9 </b> 
-- <b>Pytorch = 1.13.1+cu117 </b>
+- <b>[Pytorch](https://pytorch.org/get-started/previous-versions/) = 1.13.1+cu117 </b>
 
 For exact requirements, see [here](https://github.com/fschmid56/cpjku_dcase23).
 
